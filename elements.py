@@ -53,7 +53,7 @@ def create_OutputBox(text: [],
                     size=size)
 
 
-input_Value = create_Input("", size=(50, 10))
-input_BaseInput = create_Input("", size=(5, 10))
+input_Value = create_Input("200", size=(50, 10))
+input_BaseInput = create_Input("10", size=(5, 10))
 box_Output = create_OutputBox("", size=(44, 4))
-input_BaseOutput = create_Input("", size=(5, 10))
+input_BaseOutput = create_Input("16", size=(5, 10))

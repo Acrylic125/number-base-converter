@@ -3,7 +3,7 @@ import PySimpleGUI as Gui
 
 
 KEY_BTN_CONVERT = "btn_CONVERT"
-KEY_BTN_FLIP = "btn_CONVERT"
+KEY_BTN_FLIP = "btn_FLIP"
 KEY_BTN_FLIP_INPUT = "btn_FLIP_INPUT"
 KEY_BTN_FLIP_BASE = "btn_FLIP_BASE"
 
