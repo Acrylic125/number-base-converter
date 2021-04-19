@@ -28,7 +28,6 @@ def run_FlipBase():
 def flip(inp, out):
     v_Inp = inp.get()
     v_Out = out.get()
-    print(v_Out, " ", v_Inp)
     inp.update(v_Out)
     out.update(v_Inp)
 
@@ -39,8 +38,6 @@ def run_ButtonAction(key, values) -> bool:
         return True
     if key == layout.KEY_BTN_FLIP:
         run_Flip()
-        print("Testtt")
-
         return True
     if key == layout.KEY_BTN_FLIP_BASE:
         run_FlipBase()

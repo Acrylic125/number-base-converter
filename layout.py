@@ -1,12 +1,10 @@
 import elements as e
 import PySimpleGUI as Gui
 
-
 KEY_BTN_CONVERT = "btn_CONVERT"
 KEY_BTN_FLIP = "btn_FLIP"
 KEY_BTN_FLIP_INPUT = "btn_FLIP_INPUT"
 KEY_BTN_FLIP_BASE = "btn_FLIP_BASE"
-
 
 section = [
     [
@@ -28,7 +26,7 @@ section = [
         e.input_BaseOutput
     ],
     [
-       Gui.HSeparator()
+        Gui.HSeparator()
     ],
     [
         e.create_Button("Convert", key=KEY_BTN_CONVERT),
@@ -55,3 +53,23 @@ layout = [
 window = Gui.Window("Number Converter",
                     layout,
                     background_color=e.BASE_COLOR)
+
+
+def resetInputColor(inp: e.Gui.Input):
+    inp.update(background_color=e.INPUT_COLOR)
+
+
+def resetInput(inp: e.Gui.Input):
+    inp.update("", background_color=e.INPUT_COLOR)
+
+
+def resetInputColors():
+    resetInputColor(e.input_Value)
+    resetInputColor(e.input_Value)
+    resetInputColor(e.input_BaseOutput)
+
+
+def resetInputs():
+    resetInput(e.input_Value)
+    resetInput(e.input_Value)
+    resetInput(e.input_BaseOutput)
