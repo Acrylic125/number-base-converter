@@ -51,3 +51,9 @@ def create_OutputBox(text: [],
     return Gui.Text(text,
                     background_color=OUTPUT_COLOR,
                     size=size)
+
+
+input_Value = create_Input("", size=(50, 10))
+input_BaseInput = create_Input("", size=(5, 10))
+box_Output = create_OutputBox("", size=(44, 4))
+input_BaseOutput = create_Input("", size=(5, 10))
