@@ -99,11 +99,13 @@ def validateForConversion() -> bool:
 
 
 def _recursiveConverter(quotient: int,
-                         tail: str,
-                         base: int) -> str:
+                        tail: str,
+                        base: int) -> str:
     remainder = quotient % base
     newQuotient = (quotient - remainder) / base
-    tail = toChar(remainder) + tail
+    rTail = toChar(remainder)
+    if rTail is not None:
+        tail = rTail + tail
     return tail if newQuotient <= 0 else _recursiveConverter(int(newQuotient), tail, base)
 
 
@@ -126,5 +128,6 @@ class Converter:
         acc = 0
         for c in arr:
             i -= 1
-            acc += (toNum(c) * pow(self.inputBase, i))
+            num = toNum(c)
+            acc += (num * pow(self.inputBase, i)) if num != 0 else 0
         return acc
