@@ -85,12 +85,26 @@ def toNum(char: str) -> int:
     return output if output is not None else 0
 
 
+def toChar(val: int) -> str:
+    output = NumericsCharTable.get(val)
+    return output if output is not None else 0
+
+
 def validateInput(inp: Gui.Input) -> bool:
     pass
 
 
 def validateForConversion() -> bool:
     pass
+
+
+def _recursiveConverter(quotient: int,
+                         tail: str,
+                         base: int) -> str:
+    remainder = quotient % base
+    newQuotient = (quotient - remainder) / base
+    tail = toChar(remainder) + tail
+    return tail if newQuotient <= 0 else _recursiveConverter(int(newQuotient), tail, base)
 
 
 class Converter:
@@ -101,6 +115,10 @@ class Converter:
         self.inputBase = inputBase
         self.outputBase = outputBase
         self.inputValue = inputValue
+
+    def convertToOutput(self) -> str:
+        b_10 = self.toBase10()
+        return _recursiveConverter(b_10, "", self.outputBase)
 
     def toBase10(self) -> int:
         arr = list(self.inputValue)

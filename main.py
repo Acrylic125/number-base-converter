@@ -4,8 +4,9 @@ import converter as c
 
 while True:
     base = int(input("Key in a base to convert from."))
+    base2 = int(input("Key in a base to convert to."))
     val = input("Key in a value.")
-    print(c.Converter(base, inputValue=val).toBase10())
+    print(c.Converter(base, inputValue=val, outputBase=base2).convertToOutput())
 
 #
 # def run_Convert():
