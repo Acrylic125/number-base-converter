@@ -156,7 +156,7 @@ class Converter:
     def convertToOutput(self) -> str:
         b_10 = self.__toBase10()
         if b_10 < 0:
-            return "-" + _recursiveConverter(b_10 * -1, "", self.outputBase)
+            return NEGATIVE_SIGN + _recursiveConverter(b_10 * -1, "", self.outputBase)
         return _recursiveConverter(b_10, "", self.outputBase)
 
     def __toBase10(self) -> int:
@@ -167,7 +167,6 @@ class Converter:
         arr = list(self.inputValue)
         i = len(arr)
         acc = 0
-        isNegative = arr[0] == NEGATIVE_SIGN
         for c in arr:
             i -= 1
             num = toNum(c)
@@ -176,6 +175,6 @@ class Converter:
             if not warn_OutOfBase and num >= self.inputBase:
                 warn_OutOfBase = True
                 self.warnings.append("The given input is out of base! This may produce an unwanted results.")
-        if isNegative:
+        if arr[0] == NEGATIVE_SIGN:
             acc *= -1
         return acc
