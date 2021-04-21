@@ -151,7 +151,6 @@ class Converter:
         self.outputBase = outputBase
         self.inputValue = regex.sub(SPACING_PATTERN, "", inputValue).upper()
         self.warnings = []
-        print(self.inputValue)
 
     def convertToOutput(self) -> str:
         b_10 = self.__toBase10()
