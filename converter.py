@@ -1,5 +1,10 @@
 import PySimpleGUI as Gui
-import numpy as np
+import layout
+import re as regex
+
+NEGATIVE_SIGN = "-"
+SPACING_PATTERN = "[ _,]"
+MAX_BASE = 35
 
 # Table to convert from char -> number
 CharNumericsTable = {
@@ -90,12 +95,40 @@ def toChar(val: int) -> str:
     return output if output is not None else 0
 
 
-def validateInput(inp: Gui.Input) -> bool:
-    pass
+def __markInputAs(inp: Gui.Input, valid: bool):
+    if valid:
+        layout.resetInputColor(inp)
+    else:
+        inp.update(background_color="#f2506b")
+
+
+def __testInputForInt(val: str) -> bool:
+    return len(val) > 0 and not val.__contains__(".")
+
+
+def validateInputValue(inp: Gui.Input) -> bool:
+    val = str(inp.get())
+    result = __testInputForInt(val)
+    __markInputAs(inp, result)
+    return result
+
+
+def validateInputBase(inp: Gui.Input) -> bool:
+    val = str(inp.get())
+    result = __testInputForInt(val)
+    if result:
+        val = int(val)
+        result = 0 < val <= MAX_BASE
+    __markInputAs(inp, result)
+    return result
 
 
 def validateForConversion() -> bool:
-    pass
+    valid_Value, valid_InputBase, valid_OutputBase = \
+        validateInputValue(layout.e.input_Value), \
+        validateInputBase(layout.e.input_BaseInput), \
+        validateInputBase(layout.e.input_BaseOutput)
+    return valid_Value and valid_InputBase and valid_OutputBase
 
 
 def _recursiveConverter(quotient: int,
@@ -116,18 +149,33 @@ class Converter:
                  inputValue: str = "0"):
         self.inputBase = inputBase
         self.outputBase = outputBase
-        self.inputValue = inputValue
+        self.inputValue = regex.sub(SPACING_PATTERN, "", inputValue).upper()
+        self.warnings = []
+        print(self.inputValue)
 
     def convertToOutput(self) -> str:
-        b_10 = self.toBase10()
+        b_10 = self.__toBase10()
+        if b_10 < 0:
+            return "-" + _recursiveConverter(b_10 * -1, "", self.outputBase)
         return _recursiveConverter(b_10, "", self.outputBase)
 
-    def toBase10(self) -> int:
+    def __toBase10(self) -> int:
+        # Error handling
+        warn_OutOfBase = False
+
+        # Conversion
         arr = list(self.inputValue)
         i = len(arr)
         acc = 0
+        isNegative = arr[0] == NEGATIVE_SIGN
         for c in arr:
             i -= 1
             num = toNum(c)
             acc += (num * pow(self.inputBase, i)) if num != 0 else 0
+            # Error handling
+            if not warn_OutOfBase and num >= self.inputBase:
+                warn_OutOfBase = True
+                self.warnings.append("The given input is out of base! This may resort in unwanted results.")
+        if isNegative:
+            acc *= -1
         return acc
