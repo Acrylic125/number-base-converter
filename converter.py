@@ -1,6 +1,7 @@
 import PySimpleGUI as Gui
 import layout
-import re as regex
+import re
+import elements as e
 
 NEGATIVE_SIGN = "-"
 SPACING_PATTERN = "[ _,]"
@@ -125,9 +126,9 @@ def validateInputBase(inp: Gui.Input) -> bool:
 
 def validateForConversion() -> bool:
     valid_Value, valid_InputBase, valid_OutputBase = \
-        validateInputValue(layout.e.input_Value), \
-        validateInputBase(layout.e.input_BaseInput), \
-        validateInputBase(layout.e.input_BaseOutput)
+        validateInputValue(e.input_Value), \
+        validateInputBase(e.input_BaseInput), \
+        validateInputBase(e.input_BaseOutput)
     return valid_Value and valid_InputBase and valid_OutputBase
 
 
@@ -149,7 +150,7 @@ class Converter:
                  inputValue: str = "0"):
         self.inputBase = inputBase
         self.outputBase = outputBase
-        self.inputValue = regex.sub(SPACING_PATTERN, "", inputValue).upper()
+        self.inputValue = re.sub(SPACING_PATTERN, "", inputValue).upper()
         self.warnings = []
 
     def convertToOutput(self) -> str:
@@ -174,7 +175,7 @@ class Converter:
             # Error handling
             if not warn_OutOfBase and num >= self.inputBase:
                 warn_OutOfBase = True
-                self.warnings.append("The given input is out of base! This may resort in unwanted results.")
+                self.warnings.append("The given input is out of base! This may produce an unwanted results.")
         if isNegative:
             acc *= -1
         return acc
